@@ -43,7 +43,7 @@ RCT_EXPORT_METHOD(initializeWithOptions:(NSString *) environment clientId:(NSStr
         [PayPalMobile preconnectWithEnvironment:environment];
     });
 
-    if([options objectForKey:@"merchantName"] != nil 
+    if([options objectForKey:@"merchantName"] != nil
         && [options objectForKey:@"merchantPrivacyPolicyUri"] != nil 
         && [options objectForKey:@"merchantUserAgreementUri"] != nil ) {
 
@@ -99,11 +99,18 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)options resolver:(RCTPromiseResolveBlock)r
     NSString *price = [RCTConvert NSString:options[@"price"]];
     NSString *currency = [RCTConvert NSString:options[@"currency"]];
     NSString *description = [RCTConvert NSString:options[@"description"]];
+    NSString *custom = [RCTConvert NSString:options[@"custom"]];
+    NSString *invoiceNumber = [RCTConvert NSString:options[@"invoiceNumber"]];
     
     self.payment = [[PayPalPayment alloc] init];
+    
+    
+    
     [self.payment setAmount:[[NSDecimalNumber alloc] initWithString:price]];
     [self.payment setCurrencyCode:currency];
     [self.payment setShortDescription:description];
+    [self.payment setCustom:custom];
+    [self.payment setInvoiceNumber:invoiceNumber];
     
     self.configuration = [[PayPalConfiguration alloc] init];
     [self.configuration setAcceptCreditCards:true];
